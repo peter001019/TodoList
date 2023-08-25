@@ -1,6 +1,16 @@
 const inputBox = document.getElementById("input-box");
 const listContainer = document.getElementById("list-container");
 
+function addButtonClicked(){
+    addTask();
+}
+
+function handleEnterDown(e){
+    if(e.keyCode === 13){
+        addTask();
+    }
+}
+
 function addTask(){
     if(inputBox.value === ''){
         alert("텍스트를 입력해주세요!");
@@ -9,9 +19,15 @@ function addTask(){
         let li = document.createElement("li"); //html 요소 생성
         li.innerHTML = inputBox.value; //element 속 HTML 가져옴
         listContainer.appendChild(li); //요소 추가
+
         let span = document.createElement("span");
         span.innerHTML = "\u00d7";
         li.appendChild(span);
+
+        let date = document.createElement("div");
+        date.id = 'date';
+        date.innerHTML = getCurrentDate();
+        li.appendChild(date);
     }
     inputBox.value = "";
 }
@@ -36,6 +52,15 @@ function saveData(){
 
 function showTask(){
     listContainer.innerHTML = localStorage.getItem("data");
+}
+
+function getCurrentDate(){
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+
+    return `${year}-${month}-${day}`;
 }
 
 showTask();
